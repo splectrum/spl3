@@ -21,23 +21,32 @@ to create. Three pillars: Mycelium (repository), Splectrum
 ## Current State
 
 Where we are:
-Change tracking of mutable resources via immutable logs.
-Content as opaque bytes with encoding field. Requirements
-before code going forward. Next step (05): split the
-Mycelium API into logical and physical layers, with
-folder-based and file-based as the first two physical
-implementations.
+The logical/physical split works — proven with two
+capabilities and byte-level round-trip. The interface needs
+to split into immutable (foundation: read, create, flatten)
+and mutable (extension: write, delete). Changelogs are
+sibling records (`key.changelog`), with two causality modes
+(log-first, resource-first). Table-level changelog is a
+cascading read, not separate storage. Bin is a higher-level
+data structure pattern on top of the core API, not embedded
+in it. Delete behavior depends on context structure. All
+patterns emerge from the existing primitive — no new concepts.
+Next (07): immutable/mutable API split with changelog.
+Then (08): natural language requirements/quality gates
+evaluator.
 
-Current project: **05_context_fix**
-An improved version of the context-view tool (from 03). The
-`context-view sync` command now generates a CONTEXT.md that
-works as a cold-start orientation document. Additions over 03:
-introduction from CLAUDE.md, vocabulary glossary, current
-conceptual state (carry-forward), reading order, magnifying
-glass on current project (requirements surfaced inline),
-compact timeline entries with cascading references to detail.
+Current project: **07_mutable**
+Immutable/mutable API split with changelog tracking. The
+capability interface splits into ImmutableCapability (read,
+create, flatten) and MutableCapability (adds write, delete).
+A TrackedCapability wrapper adds changelog as a sibling
+record (`{key}.changelog`), with two causality modes
+(log-first, resource-first). Cascading changelog read
+aggregates across children. Both folder-based and file-based
+capabilities implement the mutable interface. CLI extended
+with write, log, and mode selection.
 
-See `projects/05_context_fix/` for source and requirements.
+See `projects/07_mutable/` for source and requirements.
 
 Documents:
 - CLAUDE.md — # CLAUDE.md - Splectrum (spl3)
@@ -56,6 +65,8 @@ Documents:
 ## Timeline
 
 <!-- TIMELINE:START -->
+
+
 
 
 
@@ -150,5 +161,19 @@ Mycelium API into logical and physical layers, with
 folder-based and file-based as the first two physical
 implementations.
 <!-- ENTRY:04_changelog:END -->
+<!-- ENTRY:05_context_fix:START -->
+### 05_context_fix
+
+CONTEXT.md works as a cold-start orientation document (7/10).
+
+See `projects/05_context_fix/EVALUATION.md` for learnings and detail.
+<!-- ENTRY:05_context_fix:END -->
+<!-- ENTRY:06_capability:START -->
+### 06_capability
+
+The logical/physical split works — proven with two
+
+See `projects/06_capability/EVALUATION.md` for learnings and detail.
+<!-- ENTRY:06_capability:END -->
 
 <!-- TIMELINE:END -->
