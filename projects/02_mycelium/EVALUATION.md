@@ -50,6 +50,10 @@ layer on top of.
 | create <key> [content] | Create a record or context |
 | delete <key> | Remove a record |
 
+## Changes Outside This Project
+
+- None. All changes contained within this project.
+
 ## Carry Forward
 
 The logical model: contexts contain keyed records, records

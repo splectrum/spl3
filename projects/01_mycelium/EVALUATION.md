@@ -100,6 +100,15 @@ lists are contingent (point 5), and meaning requires context
 **context containing keyed items, where items can themselves
 be contexts**.
 
+## Changes Outside This Project
+
+- **CLAUDE.md** — Added "The Build Cycle" section: AI decides
+  what to build, builds it, we evaluate together, evolve spl3.
+  Projects live in `projects/`, sequentially numbered.
+- **projects/** — Created as top-level context for all builds.
+- **GitHub** — Created repo under splectrum org (splectrum/spl3),
+  transferred from jules-tenbos/spl3.
+
 ## The Primitive (revised)
 
 A **record** is: key → content (opaque bytes).
