@@ -21,32 +21,29 @@ to create. Three pillars: Mycelium (repository), Splectrum
 ## Current State
 
 Where we are:
-The logical/physical split works — proven with two
-capabilities and byte-level round-trip. The interface needs
-to split into immutable (foundation: read, create, flatten)
-and mutable (extension: write, delete). Changelogs are
-sibling records (`key.changelog`), with two causality modes
-(log-first, resource-first). Table-level changelog is a
-cascading read, not separate storage. Bin is a higher-level
-data structure pattern on top of the core API, not embedded
-in it. Delete behavior depends on context structure. All
-patterns emerge from the existing primitive — no new concepts.
-Next (07): immutable/mutable API split with changelog.
-Then (08): natural language requirements/quality gates
-evaluator.
+Immutable/mutable split works with changelog tracking on
+both substrates. The API mixes two concerns (record vs
+context operations) that will separate when context becomes
+first-class. The right architecture: flat API, context
+traversal accumulating metadata, local operation receiving
+metadata as parameter. Mutability is state (from context
+metadata), not type. Bin, move, and mode persistence all
+belong to the context layer. Next project should introduce
+context traversal with metadata — that's when the flat API,
+bin, move, and state-based mutability all become real.
 
-Current project: **07_mutable**
-Immutable/mutable API split with changelog tracking. The
-capability interface splits into ImmutableCapability (read,
-create, flatten) and MutableCapability (adds write, delete).
-A TrackedCapability wrapper adds changelog as a sibling
-record (`{key}.changelog`), with two causality modes
-(log-first, resource-first). Cascading changelog read
-aggregates across children. Both folder-based and file-based
-capabilities implement the mutable interface. CLI extended
-with write, log, and mode selection.
+Current project: **08_context**
+The context layer: a flat API surface with traversal that
+accumulates metadata along the context path. One interface
+with all operations (create, read, write, delete, list,
+flatten, move). Metadata is transient (supplied at
+invocation as context definitions). The context layer wraps
+a storage capability, enforces rules from accumulated
+metadata, and drives changelog behavior based on mode.
+Both folder-based and file-based storage work identically
+underneath.
 
-See `projects/07_mutable/` for source and requirements.
+See `projects/08_context/` for source and requirements.
 
 Documents:
 - CLAUDE.md — # CLAUDE.md - Splectrum (spl3)
@@ -65,6 +62,7 @@ Documents:
 ## Timeline
 
 <!-- TIMELINE:START -->
+
 
 
 
@@ -175,5 +173,12 @@ The logical/physical split works — proven with two
 
 See `projects/06_capability/EVALUATION.md` for learnings and detail.
 <!-- ENTRY:06_capability:END -->
+<!-- ENTRY:07_mutable:START -->
+### 07_mutable
+
+Immutable/mutable split works with changelog tracking on
+
+See `projects/07_mutable/EVALUATION.md` for learnings and detail.
+<!-- ENTRY:07_mutable:END -->
 
 <!-- TIMELINE:END -->
