@@ -48,7 +48,15 @@ Each requirement states what the tool should do in terms
 that allow verification. This is TDC (principle 5.1-5.4)
 in practice.
 
-### 6. The project timeline is itself a change log
+### 6. Immutability is retrospective, not declared
+
+A project becomes immutable when the next project starts —
+not when an evaluation is written. The latest project is
+always mutable. This removes pressure to write evaluation
+in one go, and makes the immutability signal natural: moving
+forward seals what came before.
+
+### 7. The project timeline is itself a change log
 
 Each project folder is the full record of that iteration's
 impact — including changes made outside the project. The

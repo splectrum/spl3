@@ -71,8 +71,8 @@ function renderState(ctx: RepoContext): string {
   }
   lines.push('');
 
-  // In-progress projects (no evaluation)
-  const inProgress = ctx.projects.filter(p => !p.evaluation);
+  // Current project (latest = mutable)
+  const inProgress = ctx.projects.filter(p => p.latest);
   if (inProgress.length) {
     lines.push('In progress:');
     for (const p of inProgress) {
@@ -112,7 +112,7 @@ function extractTimeline(content: string): string {
 /** Generate or update CONTEXT.md */
 export function persist(ctx: RepoContext): { path: string; added: string[] } {
   const contextPath = join(ctx.root, CONTEXT_FILE);
-  const completedProjects = ctx.projects.filter(p => p.evaluation);
+  const completedProjects = ctx.projects.filter(p => !p.latest);
   const added: string[] = [];
 
   // Build the existing timeline or start fresh

@@ -1,6 +1,43 @@
 # Context
 
-## State
+## What Is This
+
+Splectrum is a living meaning system where entities collaborate
+to create. Three pillars: Mycelium (repository), Splectrum
+(expression), HAICC (creation). See PRINCIPLES.md.
+
+**Mission:** spl3 is the Mycelium boot process. Its mission is to reach a state where defining meaning (requirements, quality gates), created meaning (content), and capabilities (implementations) can be disentangled into separate, independent units. On completion, spl3 triggers repo diversification — like cell diversification — with each new repository carrying its own Mycelium envelope: self-describing, self-contained, composable across boundaries.
+
+## Vocabulary
+
+- **Entity** — Any participant: human, AI, process, sensor, capability
+- **Record** — Key → content (opaque bytes). The primitive
+- **Context** — Container of records. Records can be contexts. Recursive
+- **Mycelium** — Meaningless persistence layer. Stores, does not interpret
+- **Splectrum** — Expression layer. Meaning, references, quality gates
+- **HAICC** — Creation layer. Entity collaboration, autonomy, evaluation
+- **TDC** — Test-Driven Creation. Intent → requirements → build → verify
+
+## Current State
+
+Where we are:
+Change tracking of mutable resources via immutable logs.
+Content as opaque bytes with encoding field. Requirements
+before code going forward. Next step (05): split the
+Mycelium API into logical and physical layers, with
+folder-based and file-based as the first two physical
+implementations.
+
+Current project: **05_context_fix**
+An improved version of the context-view tool (from 03). The
+`context-view sync` command now generates a CONTEXT.md that
+works as a cold-start orientation document. Additions over 03:
+introduction from CLAUDE.md, vocabulary glossary, current
+conceptual state (carry-forward), reading order, magnifying
+glass on current project (requirements surfaced inline),
+compact timeline entries with cascading references to detail.
+
+See `projects/05_context_fix/` for source and requirements.
 
 Documents:
 - CLAUDE.md — # CLAUDE.md - Splectrum (spl3)
@@ -9,12 +46,18 @@ Documents:
 - POSITIONING.md — # 15 - Positioning Refined: Mycelium vs Log-Centric Systems
 - PRINCIPLES.md — # 14 - Principles (Complete, Three Pillars)
 
-In progress:
-- 04_changelog (8 files)
+## Reading Order
+
+1. This file — orientation and current state
+2. PRINCIPLES.md — three-pillar conceptual model
+3. CLAUDE.md — working norms and build cycle
+4. EVALUATION.md files in projects/ — intellectual history
 
 ## Timeline
 
 <!-- TIMELINE:START -->
+
+
 
 
 
@@ -86,5 +129,26 @@ any entity entering the project.
 External changes:
 - **CONTEXT.md** — Created at repo root by the sync command.
 <!-- ENTRY:03_context_view:END -->
+<!-- ENTRY:04_changelog:START -->
+### 04_changelog
+
+Files: .gitignore, EVALUATION.md, REQUIREMENTS.md, package-lock.json, package.json, src/cli.ts, src/store.ts, tsconfig.json
+
+Learnings:
+- Content is opaque bytes in practice
+- A timestamped changelog replaces a daily log
+- Mutable resources gain immutable history
+- The changelog is not yet a true Mycelium artefact
+- Requirements should be written before building
+- A changelog file is a list incarnation
+- Two physical substrates now exist — time to split
+
+Change tracking of mutable resources via immutable logs.
+Content as opaque bytes with encoding field. Requirements
+before code going forward. Next step (05): split the
+Mycelium API into logical and physical layers, with
+folder-based and file-based as the first two physical
+implementations.
+<!-- ENTRY:04_changelog:END -->
 
 <!-- TIMELINE:END -->

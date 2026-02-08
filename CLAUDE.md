@@ -6,6 +6,17 @@ Splectrum is a living meaning system where entities collaborate
 to create. Three pillars: Mycelium (repository), Splectrum
 (expression), HAICC (creation). See PRINCIPLES.md.
 
+## Mission
+
+spl3 is the Mycelium boot process. Its mission is to reach
+a state where defining meaning (requirements, quality gates),
+created meaning (content), and capabilities (implementations)
+can be disentangled into separate, independent units. On
+completion, spl3 triggers repo diversification — like cell
+diversification — with each new repository carrying its own
+Mycelium envelope: self-describing, self-contained, composable
+across boundaries.
+
 ## How We Work
 
 - **Entity:** Any participant. Human, AI, process, sensor, capability.

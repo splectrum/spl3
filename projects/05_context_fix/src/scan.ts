@@ -5,11 +5,13 @@ export interface ProjectInfo {
   key: string;
   files: string[];
   evaluation: string | null;
+  requirements: string | null;
   latest: boolean;
 }
 
 export interface RepoContext {
   root: string;
+  claudeMd: string | null;
   rootDocs: { key: string; firstLine: string }[];
   projects: ProjectInfo[];
 }
@@ -61,6 +63,10 @@ function listSourceFiles(dir: string): string[] {
 export function scan(from: string = process.cwd()): RepoContext {
   const root = findRoot(from);
 
+  // CLAUDE.md for intro content
+  const claudePath = join(root, 'CLAUDE.md');
+  const claudeMd = existsSync(claudePath) ? readFileSync(claudePath, 'utf-8') : null;
+
   // Root-level docs
   const rootEntries = readdirSync(root).filter(e => e.endsWith('.md'));
   const rootDocs = rootEntries.map(key => ({
@@ -80,16 +86,20 @@ export function scan(from: string = process.cwd()): RepoContext {
       const entry = entries[i];
       const projectDir = join(projectsDir, entry);
       const evalPath = join(projectDir, 'EVALUATION.md');
+      const reqsPath = join(projectDir, 'REQUIREMENTS.md');
       projects.push({
         key: entry,
         files: listSourceFiles(projectDir),
         evaluation: existsSync(evalPath)
           ? readFileSync(evalPath, 'utf-8')
           : null,
+        requirements: existsSync(reqsPath)
+          ? readFileSync(reqsPath, 'utf-8')
+          : null,
         latest: i === entries.length - 1,
       });
     }
   }
 
-  return { root, rootDocs, projects };
+  return { root, claudeMd, rootDocs, projects };
 }
