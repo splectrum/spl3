@@ -9,6 +9,9 @@ Documents:
 - POSITIONING.md — # 15 - Positioning Refined: Mycelium vs Log-Centric Systems
 - PRINCIPLES.md — # 14 - Principles (Complete, Three Pillars)
 
+In progress:
+- 04_changelog (8 files)
+
 ## Timeline
 
 <!-- TIMELINE:START -->
@@ -70,6 +73,7 @@ Learnings:
 - Requirements are the document, gates are derived
 - Immutable and mutable coexist in one artifact
 - Projects should document their requirements
+- Immutability is retrospective, not declared
 - The project timeline is itself a change log
 
 First Splectrum view built. Established patterns: immutable
