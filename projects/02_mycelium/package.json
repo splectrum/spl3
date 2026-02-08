@@ -1,0 +1,16 @@
+{
+  "name": "mycelium",
+  "version": "0.2.0",
+  "description": "Filesystem as context/record primitive",
+  "type": "module",
+  "bin": {
+    "mycelium": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

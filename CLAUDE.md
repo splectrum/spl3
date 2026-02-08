@@ -17,6 +17,14 @@ to create. Three pillars: Mycelium (repository), Splectrum
 - **Meaning first.** Everything starts from meaning and intent,
   not from infrastructure or frameworks.
 
+## The Build Cycle
+
+AI decides what to build next, builds it, then we evaluate
+together and evolve spl3 accordingly. Each build lives in
+`projects/` as its own project. Shortest route to useful
+tools — self-sufficiency first, not infrastructure for its
+own sake.
+
 ## Key Documents
 
 - `PRINCIPLES.md` - Three-pillar principles (foundation)
