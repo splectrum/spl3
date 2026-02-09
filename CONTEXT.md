@@ -6,44 +6,36 @@ Splectrum is a living meaning system where entities collaborate
 to create. Three pillars: Mycelium (repository), Splectrum
 (expression), HAICC (creation). See PRINCIPLES.md.
 
-**Mission:** spl3 is the Mycelium boot process. Its mission is to reach a state where defining meaning (requirements, quality gates), created meaning (content), and capabilities (implementations) can be disentangled into separate, independent units. On completion, spl3 triggers repo diversification — like cell diversification — with each new repository carrying its own Mycelium envelope: self-describing, self-contained, composable across boundaries.
+**Mission:** spl3 is the Mycelium boot process. Its mission is to reach a state where defining meaning (requirements, quality gates), created meaning (content), and capabilities (implementations) can be disentangled into separate, independent units. On completion, spl3 triggers repo diversification — like cell diversification — with each new repository carrying its own Mycelium envelope: self-describing, self-contained, composable across boundaries.
 
 ## Vocabulary
 
 - **Entity** — Any participant: human, AI, process, sensor, capability
 - **Record** — Key → content (opaque bytes). The primitive
 - **Context** — Container of records. Records can be contexts. Recursive
-- **Mycelium** — Meaningless persistence layer. Stores, does not interpret
+- **Mycelium** — Data interaction model. Stores, overlays, does not interpret
 - **Splectrum** — Expression layer. Meaning, references, quality gates
 - **HAICC** — Creation layer. Entity collaboration, autonomy, evaluation
 - **TDC** — Test-Driven Creation. Intent → requirements → build → verify
 
 ## Current State
 
-Where we are:
-Immutable/mutable split works with changelog tracking on
-both substrates. The API mixes two concerns (record vs
-context operations) that will separate when context becomes
-first-class. The right architecture: flat API, context
-traversal accumulating metadata, local operation receiving
-metadata as parameter. Mutability is state (from context
-metadata), not type. Bin, move, and mode persistence all
-belong to the context layer. Next project should introduce
-context traversal with metadata — that's when the flat API,
-bin, move, and state-based mutability all become real.
+Core Mycelium architecture complete (01-08): storage layer
+(bytes), context layer (traversal, metadata, enforcement,
+changelog), flat API surface.
 
-Current project: **08_context**
-The context layer: a flat API surface with traversal that
-accumulates metadata along the context path. One interface
-with all operations (create, read, write, delete, list,
-flatten, move). Metadata is transient (supplied at
-invocation as context definitions). The context layer wraps
-a storage capability, enforces rules from accumulated
-metadata, and drives changelog behavior based on mode.
-Both folder-based and file-based storage work identically
-underneath.
+Current project: **09_evaluator**
+The first Splectrum-layer tool. A data-triggered pipeline
+that translates natural language requirements into evaluation
+prompts and assembles results into reports. Four stateless
+steps (prepare, translate, evaluate, report) driven by data
+state in a transient context (.eval/). Key patterns established:
+data-triggered processing, transient process contexts,
+explicit/implicit boundaries, tailored data environments.
 
-See `projects/08_context/` for source and requirements.
+See `projects/09_evaluator/` for source and requirements.
+
+## State
 
 Documents:
 - CLAUDE.md — # CLAUDE.md - Splectrum (spl3)
@@ -52,16 +44,14 @@ Documents:
 - POSITIONING.md — # 15 - Positioning Refined: Mycelium vs Log-Centric Systems
 - PRINCIPLES.md — # 14 - Principles (Complete, Three Pillars)
 
-## Reading Order
-
-1. This file — orientation and current state
-2. PRINCIPLES.md — three-pillar conceptual model
-3. CLAUDE.md — working norms and build cycle
-4. EVALUATION.md files in projects/ — intellectual history
+In progress:
+- 09_evaluator (11 files)
 
 ## Timeline
 
 <!-- TIMELINE:START -->
+
+
 
 
 
@@ -180,5 +170,30 @@ Immutable/mutable split works with changelog tracking on
 
 See `projects/07_mutable/EVALUATION.md` for learnings and detail.
 <!-- ENTRY:07_mutable:END -->
+<!-- ENTRY:08_context:START -->
+### 08_context
+
+Files: .gitignore, EVALUATION.md, REQUIREMENTS.md, package-lock.json, package.json, src/changelog.ts, src/cli.ts, src/context.ts, src/file.ts, src/folder.ts, src/traverse.ts, src/types.ts, tsconfig.json
+
+Learnings:
+- The flat API works
+- Traversal is simple
+- Flat contexts model natural hops
+- Three changelog modes are correct
+- Transient metadata proves the mechanics
+- The context layer absorbs TrackedCapability
+- Storage is truly dumb
+- Nearest distance principle in action
+- Move is a compound operation
+
+The core architecture is complete: storage layer (bytes),
+context layer (traversal, metadata, enforcement, changelog),
+flat API surface. Metadata is transient — stateful metadata
+extends the same merge with a stored source and a merge
+mode for external/internal precedence. Bin is a data
+structure pattern on the context layer. The evaluator (09)
+is the next major step — first Splectrum-layer tool, using
+natural language requirements as quality gates.
+<!-- ENTRY:08_context:END -->
 
 <!-- TIMELINE:END -->
