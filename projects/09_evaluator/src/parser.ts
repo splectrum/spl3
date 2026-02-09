@@ -1,47 +1,53 @@
 /**
  * Requirements parser — extracts Requirement objects
  * from a REQUIREMENTS.md file.
+ *
+ * Two formats supported:
+ * 1. ### R{n}: {title} — standard R-numbered requirements
+ * 2. ## {section} with numbered items — older convention
  */
 
 import { Requirement } from './types.js';
 
 /**
  * Parse a REQUIREMENTS.md file into Requirement objects.
- *
- * Requirements: ### R{n}: {title} headings
- * Quality gates: ## Quality Gates section, bulleted list
+ * Tries R-numbered format first, falls back to section format.
  */
 export function parseRequirements(markdown: string): Requirement[] {
-  const requirements: Requirement[] = [];
   const lines = markdown.split('\n');
 
-  // Extract requirements (### R{n}: {title})
+  // Try R-numbered format first
+  const rNumbered = parseRNumbered(lines);
+  if (rNumbered.length > 0) {
+    const gates = parseGates(lines);
+    associateGates(gates, rNumbered);
+    return rNumbered;
+  }
+
+  // Fallback: ## section headings with numbered items
+  return parseSections(lines);
+}
+
+/**
+ * Parse ### R{n}: {title} format.
+ */
+function parseRNumbered(lines: string[]): Requirement[] {
+  const requirements: Requirement[] = [];
   let current: { id: string; title: string; textLines: string[] } | null = null;
 
   for (const line of lines) {
     const reqMatch = line.match(/^### (R\d+):\s*(.+)/);
     if (reqMatch) {
       if (current) {
-        requirements.push({
-          id: current.id,
-          title: current.title,
-          text: current.textLines.join('\n').trim(),
-          gates: [],
-        });
+        requirements.push(finishReq(current));
       }
       current = { id: reqMatch[1], title: reqMatch[2].trim(), textLines: [] };
       continue;
     }
 
-    // Stop current requirement at next ## heading
     if (line.match(/^## /)) {
       if (current) {
-        requirements.push({
-          id: current.id,
-          title: current.title,
-          text: current.textLines.join('\n').trim(),
-          gates: [],
-        });
+        requirements.push(finishReq(current));
         current = null;
       }
     }
@@ -52,31 +58,71 @@ export function parseRequirements(markdown: string): Requirement[] {
   }
 
   if (current) {
-    requirements.push({
-      id: current.id,
-      title: current.title,
-      text: current.textLines.join('\n').trim(),
-      gates: [],
-    });
-  }
-
-  // Extract quality gates (## Quality Gates section)
-  const gates = parseGates(lines);
-
-  // Associate gates with requirements by matching
-  for (const gate of gates) {
-    const matched = matchGateToRequirement(gate, requirements);
-    if (matched) {
-      matched.gates.push(gate);
-    } else {
-      // Unmatched gates go to the first requirement as fallback
-      if (requirements.length > 0) {
-        requirements[0].gates.push(gate);
-      }
-    }
+    requirements.push(finishReq(current));
   }
 
   return requirements;
+}
+
+/**
+ * Parse ## {section} format with numbered items as gates.
+ * Each ## section becomes a requirement.
+ * Numbered items (1. 2. etc.) under each section become gates.
+ */
+function parseSections(lines: string[]): Requirement[] {
+  const requirements: Requirement[] = [];
+  let current: { title: string; textLines: string[]; gates: string[] } | null = null;
+  let index = 0;
+
+  // Skip the # title line
+  for (const line of lines) {
+    if (line.match(/^# /)) continue;
+
+    const sectionMatch = line.match(/^## (.+)/);
+    if (sectionMatch) {
+      if (current) {
+        index++;
+        requirements.push({
+          id: `S${index}`,
+          title: current.title,
+          text: current.textLines.join('\n').trim(),
+          gates: current.gates,
+        });
+      }
+      current = { title: sectionMatch[1].trim(), textLines: [], gates: [] };
+      continue;
+    }
+
+    if (current) {
+      // Numbered items become gates
+      const numMatch = line.match(/^\d+\.\s+(.+)/);
+      if (numMatch) {
+        current.gates.push(numMatch[1].trim());
+      }
+      current.textLines.push(line);
+    }
+  }
+
+  if (current) {
+    index++;
+    requirements.push({
+      id: `S${index}`,
+      title: current.title,
+      text: current.textLines.join('\n').trim(),
+      gates: current.gates,
+    });
+  }
+
+  return requirements;
+}
+
+function finishReq(current: { id: string; title: string; textLines: string[] }): Requirement {
+  return {
+    id: current.id,
+    title: current.title,
+    text: current.textLines.join('\n').trim(),
+    gates: [],
+  };
 }
 
 function parseGates(lines: string[]): string[] {
@@ -102,16 +148,25 @@ function parseGates(lines: string[]): string[] {
   return gates;
 }
 
+function associateGates(gates: string[], requirements: Requirement[]): void {
+  for (const gate of gates) {
+    const matched = matchGateToRequirement(gate, requirements);
+    if (matched) {
+      matched.gates.push(gate);
+    } else if (requirements.length > 0) {
+      requirements[0].gates.push(gate);
+    }
+  }
+}
+
 function matchGateToRequirement(
   gate: string,
   requirements: Requirement[]
 ): Requirement | null {
   const gateLower = gate.toLowerCase();
 
-  // Try to match by keywords from requirement title or id
   for (const req of requirements) {
     const titleWords = req.title.toLowerCase().split(/\s+/);
-    // Match if multiple title words appear in the gate
     const matches = titleWords.filter(
       (w) => w.length > 3 && gateLower.includes(w)
     );
@@ -120,7 +175,6 @@ function matchGateToRequirement(
     }
   }
 
-  // Try single significant keyword match
   for (const req of requirements) {
     const titleWords = req.title.toLowerCase().split(/\s+/);
     const significantWords = titleWords.filter((w) => w.length > 4);

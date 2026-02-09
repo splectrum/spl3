@@ -1,40 +1,5 @@
 # Context
 
-## What Is This
-
-Splectrum is a living meaning system where entities collaborate
-to create. Three pillars: Mycelium (repository), Splectrum
-(expression), HAICC (creation). See PRINCIPLES.md.
-
-**Mission:** spl3 is the Mycelium boot process. Its mission is to reach a state where defining meaning (requirements, quality gates), created meaning (content), and capabilities (implementations) can be disentangled into separate, independent units. On completion, spl3 triggers repo diversification — like cell diversification — with each new repository carrying its own Mycelium envelope: self-describing, self-contained, composable across boundaries.
-
-## Vocabulary
-
-- **Entity** — Any participant: human, AI, process, sensor, capability
-- **Record** — Key → content (opaque bytes). The primitive
-- **Context** — Container of records. Records can be contexts. Recursive
-- **Mycelium** — Data interaction model. Stores, overlays, does not interpret
-- **Splectrum** — Expression layer. Meaning, references, quality gates
-- **HAICC** — Creation layer. Entity collaboration, autonomy, evaluation
-- **TDC** — Test-Driven Creation. Intent → requirements → build → verify
-
-## Current State
-
-Core Mycelium architecture complete (01-08): storage layer
-(bytes), context layer (traversal, metadata, enforcement,
-changelog), flat API surface.
-
-Current project: **09_evaluator**
-The first Splectrum-layer tool. A data-triggered pipeline
-that translates natural language requirements into evaluation
-prompts and assembles results into reports. Four stateless
-steps (prepare, translate, evaluate, report) driven by data
-state in a transient context (.eval/). Key patterns established:
-data-triggered processing, transient process contexts,
-explicit/implicit boundaries, tailored data environments.
-
-See `projects/09_evaluator/` for source and requirements.
-
 ## State
 
 Documents:
@@ -44,12 +9,14 @@ Documents:
 - POSITIONING.md — # 15 - Positioning Refined: Mycelium vs Log-Centric Systems
 - PRINCIPLES.md — # 14 - Principles (Complete, Three Pillars)
 
-In progress:
-- 09_evaluator (11 files)
+Tools (self-contained):
+- 03_context_view — generates CONTEXT.md (TOOL.md, config, CONTEXT.md)
+- 09_evaluator — evaluates projects against requirements (TOOL.md, config, CONTEXT.md)
 
 ## Timeline
 
 <!-- TIMELINE:START -->
+
 
 
 
@@ -195,5 +162,33 @@ structure pattern on the context layer. The evaluator (09)
 is the next major step — first Splectrum-layer tool, using
 natural language requirements as quality gates.
 <!-- ENTRY:08_context:END -->
+<!-- ENTRY:09_evaluator:START -->
+### 09_evaluator
+
+Files: .gitignore, CONTEXT.md, EVALUATION.md, REQUIREMENTS.md, TOOL.md, evaluator.config.md, package-lock.json, package.json, src/cli.ts, src/execute.ts, src/parser.ts, src/pipeline.ts, src/types.ts, tsconfig.json
+
+Learnings:
+- Mycelium is a data interaction model, not a storage system
+- Data-triggered processing: data state drives progression
+- Transient process contexts with lifecycle: spawn → process → compact → detach
+- The explicit/implicit boundary is a design choice
+- Tailored data environments shaped to processing needs
+- Horizontal slicing with checkpoints for restartability
+- Prompts are data: inspectable, storable, portable records
+- Self-evaluation catches real requirement/implementation mismatches
+
+First Splectrum-layer tool. Data-triggered pipeline that
+translates natural language requirements into evaluation
+prompts and assembles results into reports. Four stateless
+steps driven by file presence/absence in a transient
+context. Evaluated itself and retroactively evaluated
+projects 03-08. Both tools made self-contained with
+TOOL.md, config.md, and CONTEXT.md — logical schema
+candidates for the Mycelium repo structure.
+
+External changes:
+- **projects/03-08** — Added .eval/ transient contexts (gitignored)
+- **projects/03_context_view** — Added TOOL.md, config.md, CONTEXT.md
+<!-- ENTRY:09_evaluator:END -->
 
 <!-- TIMELINE:END -->
