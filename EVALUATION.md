@@ -164,3 +164,25 @@ structure. The path forward:
 The mission is not complete. But the understanding is
 sufficient to complete it. What remains is structural work
 guided by proven principles — not exploration.
+
+---
+
+## Sunset
+
+spl3 is sealed. 9 projects, 7 analysis documents, one
+spawn protocol, one seed.
+
+It set out to boot Mycelium from principles to working
+code. It did. The primitive held. The layers proved out.
+Two tools do useful work. The model diverged from the
+original vision — context-centric, not log-centric — and
+that divergence was productive.
+
+What it didn't finish — structural disentanglement, tools
+consuming the API, self-describing contexts — passes
+forward to spl4. The seed is planted. The protocol for
+planting it is now a documented, reusable pattern.
+
+spl3 was the boot process. spl4 is the integration.
+
+Sealed: 2026-02-10
